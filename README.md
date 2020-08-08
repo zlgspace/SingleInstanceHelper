@@ -6,7 +6,7 @@
  只要生成类取的名称一致，即可将多个Entity合并成一个单例类
  但有一点需要注意，每个了类中的public函数必须不一致，否则生成类报错
  
-@SingleInstance("SingleAPPState")
-public class APPState
+@SingleInstance("SingleAPPState")  
+public class APPState  
 
 @SingleInstance参数选填，默认以‘SG_标记类名’为名生成单例类
