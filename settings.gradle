@@ -1,1 +1,1 @@
-include ':app', ':singleinstance'
+include ':app', ':singleinstance-compiler', ':singleinstance'

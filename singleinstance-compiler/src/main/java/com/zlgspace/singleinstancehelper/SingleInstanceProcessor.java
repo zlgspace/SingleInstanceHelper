@@ -1,8 +1,8 @@
 package com.zlgspace.singleinstancehelper;
 
 import com.google.auto.service.AutoService;
+import com.zlgspace.apt.base.BuildClass;
 import com.zlgspace.singleinstancehelper.annotation.SingleInstance;
-import com.zlgspace.singleinstancehelper.build.BuildClass;
 
 import java.io.IOException;
 import java.io.Writer;
@@ -18,7 +18,6 @@ import javax.annotation.processing.Filer;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
-import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.ElementKind;
 import javax.lang.model.element.ExecutableElement;
@@ -37,13 +36,7 @@ public class SingleInstanceProcessor extends AbstractProcessor {
     private Filer mFiler;
 
     @Override
-    public SourceVersion getSupportedSourceVersion() {
-        return SourceVersion.latestSupported();
-    }
-
-    @Override
-    public synchronized void init(ProcessingEnvironment processingEnv) {
-        super.init(processingEnv);
+    public void init(ProcessingEnvironment processingEnv) {
         elementUtils = processingEnv.getElementUtils();
         mFiler = processingEnv.getFiler();
     }
@@ -58,7 +51,7 @@ public class SingleInstanceProcessor extends AbstractProcessor {
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
         Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(SingleInstance.class);
-        Map<String,BuildClass> buildClasses = new HashMap<String,BuildClass>();
+        Map<String, BuildClass> buildClasses = new HashMap<String,BuildClass>();
         for (Element e : elements) {
                analysisAnnotated((TypeElement) e,buildClasses);
         }
@@ -98,7 +91,7 @@ public class SingleInstanceProcessor extends AbstractProcessor {
             buildClass.setPackage(pkgName);
             buildClass.setName(classSimpleName);
             buildClass.setClzModifiers("public final class");
-            buildClass.appendImport("package " + pkgName + ";\n");
+//            buildClass.appendImport("package " + pkgName + ";\n");
 
             buildClasses.put(classSimpleName,buildClass);
         }else{
